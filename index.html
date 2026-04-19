@@ -11,24 +11,24 @@
         
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: #0a0a0a;
+            background-color: #050505;
             color: #fff;
         }
 
         .main-bg {
-            background-image: linear-gradient(to bottom, rgba(10, 10, 10, 0.8), rgba(10, 10, 10, 0.95)), 
-                              url('https://api.worksbeyondworks.workers.dev/get-image?id=96643.jpg'); /* Note: Update this URL if hosting locally */
+            /* Using the new provided image URL with a sophisticated gradient overlay */
+            background-image: linear-gradient(to bottom, rgba(5, 5, 5, 0.7), rgba(5, 5, 5, 0.95)), 
+                              url('https://image.zaw-myo.workers.dev/file/936a2b53-79d5-41f4-9075-31149ec243d9');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
         }
 
-        /* Fallback if the above URL doesn't work in preview, using a base64 or placeholder logic */
         .glass {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
         .loader {
@@ -42,7 +42,11 @@
         }
 
         .media-preview {
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .btn-gradient {
+            background: linear-gradient(135deg, #22d3ee 0%, #0891b2 100%);
         }
     </style>
 </head>
@@ -51,17 +55,17 @@
     <!-- Brand Header -->
     <header class="flex flex-col items-center mb-12 text-center animate-in fade-in duration-1000">
         <div class="relative mb-6">
-            <div class="absolute -inset-4 bg-cyan-500/20 blur-3xl rounded-full"></div>
-            <div class="relative w-24 h-24 rounded-3xl overflow-hidden border border-white/20 shadow-2xl">
-                <!-- Using your uploaded image as the logo/avatar too -->
-                <img src="https://api.worksbeyondworks.workers.dev/get-image?id=96643.jpg" class="w-full h-full object-cover" alt="Air IG">
+            <div class="absolute -inset-6 bg-cyan-500/10 blur-3xl rounded-full"></div>
+            <div class="relative w-28 h-28 rounded-[32px] overflow-hidden border border-white/10 shadow-2xl rotate-3 hover:rotate-0 transition-transform duration-500">
+                <!-- Applied the new image as the main logo -->
+                <img src="https://image.zaw-myo.workers.dev/file/936a2b53-79d5-41f4-9075-31149ec243d9" class="w-full h-full object-cover" alt="Air IG">
             </div>
         </div>
         <h1 class="text-6xl font-black tracking-tighter mb-2 italic">
             AIR <span class="text-cyan-400 font-light">IG</span>
         </h1>
-        <p class="text-slate-400 text-xs font-bold tracking-[0.4em] uppercase opacity-70">
-            Premium Media Extraction
+        <p class="text-slate-500 text-[10px] font-bold tracking-[0.6em] uppercase opacity-80">
+            Next-Gen Media extraction
         </p>
     </header>
 
@@ -70,14 +74,14 @@
         <!-- Input Form -->
         <div class="glass p-2 rounded-[32px] shadow-2xl">
             <div class="relative flex items-center">
-                <div class="absolute inset-y-0 left-5 flex items-center pointer-events-none text-cyan-500/50">
+                <div class="absolute inset-y-0 left-5 flex items-center pointer-events-none text-cyan-500/40">
                     <i data-lucide="link-2" class="w-6 h-6"></i>
                 </div>
                 <input id="urlInput" type="text" placeholder="Paste Instagram link..." 
-                    class="w-full h-16 pl-14 pr-36 rounded-[24px] bg-transparent outline-none transition-all placeholder:text-slate-600 text-lg">
+                    class="w-full h-16 pl-14 pr-36 rounded-[24px] bg-transparent outline-none transition-all placeholder:text-slate-700 text-lg">
                 
                 <button onclick="handleFetch()" id="fetchBtn"
-                    class="absolute right-1.5 top-1.5 bottom-1.5 px-8 rounded-[20px] bg-cyan-500 hover:bg-cyan-400 text-black font-extrabold transition-all active:scale-95 flex items-center gap-2 shadow-lg disabled:opacity-50">
+                    class="absolute right-1.5 top-1.5 bottom-1.5 px-8 rounded-[20px] btn-gradient text-black font-extrabold transition-all active:scale-95 flex items-center gap-2 shadow-lg disabled:opacity-50">
                     <span id="btnText">FETCH</span>
                     <div id="btnLoader" class="loader hidden w-5 h-5 border-2 border-black rounded-full"></div>
                 </button>
@@ -91,44 +95,44 @@
         </div>
 
         <!-- Result Card -->
-        <div id="resultCard" class="hidden glass rounded-[40px] overflow-hidden shadow-2xl media-preview animate-in slide-in-from-bottom-10 duration-700">
+        <div id="resultCard" class="hidden glass rounded-[44px] overflow-hidden shadow-2xl media-preview animate-in slide-in-from-bottom-10 duration-700">
             <div class="relative group">
-                <!-- Thumbnail with a fallback mechanism -->
-                <div class="h-80 md:h-96 w-full bg-slate-900 flex items-center justify-center overflow-hidden">
-                    <img id="resImg" src="" alt="Content" class="w-full h-full object-cover opacity-0 transition-opacity duration-500" onload="this.classList.remove('opacity-0')">
-                    <div id="imgPlaceholder" class="absolute inset-0 flex flex-col items-center justify-center text-slate-600">
+                <div class="h-80 md:h-96 w-full bg-black/40 flex items-center justify-center overflow-hidden">
+                    <img id="resImg" src="" alt="Content" class="w-full h-full object-cover opacity-0 transition-opacity duration-700" onload="this.classList.remove('opacity-0')">
+                    <div id="imgPlaceholder" class="absolute inset-0 flex flex-col items-center justify-center text-slate-700">
                         <i data-lucide="image" class="w-12 h-12 mb-2"></i>
-                        <span class="text-xs font-bold uppercase tracking-widest">Preview Protected</span>
+                        <span class="text-[10px] font-bold uppercase tracking-[0.2em]">Preview Restricted</span>
                     </div>
                 </div>
-                <div class="absolute top-4 right-4 px-3 py-1 bg-black/50 backdrop-blur-md border border-white/10 rounded-full text-[10px] font-bold tracking-widest text-cyan-400">
-                    LIVE MEDIA
+                <div class="absolute top-6 left-6 px-4 py-1.5 bg-black/60 backdrop-blur-xl border border-white/10 rounded-full text-[10px] font-black tracking-widest text-cyan-400">
+                    HD MEDIA SOURCE
                 </div>
             </div>
             
-            <div class="p-8 space-y-8">
+            <div class="p-10 space-y-8">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center gap-4">
-                        <div id="userAvatar" class="w-12 h-12 rounded-2xl bg-cyan-500 flex items-center justify-center font-black text-black text-xl"></div>
+                        <div id="userAvatar" class="w-14 h-14 rounded-2xl bg-cyan-500 flex items-center justify-center font-black text-black text-2xl shadow-lg shadow-cyan-500/20"></div>
                         <div>
-                            <p id="resUser" class="text-lg font-black text-white leading-none"></p>
-                            <p class="text-[10px] text-cyan-500/70 uppercase tracking-widest font-bold mt-1">Verified Source</p>
+                            <p id="resUser" class="text-xl font-black text-white leading-none"></p>
+                            <p class="text-[10px] text-cyan-500/60 uppercase tracking-widest font-bold mt-2">Authenticated User</p>
                         </div>
                     </div>
                 </div>
 
-                <div class="space-y-4">
-                    <p id="resCap" class="text-slate-300 text-sm leading-relaxed line-clamp-3 italic opacity-80"></p>
+                <div class="space-y-6">
+                    <p id="resCap" class="text-slate-400 text-sm leading-relaxed line-clamp-3 italic font-medium"></p>
                     
-                    <div class="pt-4 border-t border-white/5">
+                    <div class="pt-6 border-t border-white/5">
                         <a id="downloadLink" href="#" target="_blank"
-                            class="flex items-center justify-center gap-3 w-full py-5 bg-white text-black rounded-2xl font-black transition-all hover:bg-cyan-400 active:scale-[0.98] shadow-xl">
+                            class="flex items-center justify-center gap-3 w-full py-5 bg-white text-black rounded-2xl font-black transition-all hover:bg-cyan-400 hover:scale-[1.02] active:scale-[0.98] shadow-2xl">
                             <i data-lucide="arrow-down-to-line" class="w-6 h-6"></i>
-                            DOWNLOAD NOW
+                            GENERATE DOWNLOAD
                         </a>
-                        <p class="text-[10px] text-center text-slate-500 mt-4 font-bold tracking-tighter italic">
-                            If download doesn't start, long press and select "Save Link As"
-                        </p>
+                        <div class="flex items-center justify-center gap-2 mt-6 text-slate-600">
+                             <i data-lucide="shield-check" class="w-3 h-3"></i>
+                             <span class="text-[9px] font-bold tracking-tighter uppercase">Verified Safe by Air IG</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -136,13 +140,12 @@
     </main>
 
     <!-- Footer -->
-    <footer class="mt-auto pt-16 flex flex-col items-center gap-6 opacity-40">
-        <div class="h-px w-12 bg-cyan-500/50"></div>
-        <p class="text-[10px] font-bold tracking-[0.5em] uppercase">Air IG Cloud Systems</p>
+    <footer class="mt-auto pt-20 flex flex-col items-center gap-6 opacity-30">
+        <div class="h-px w-8 bg-cyan-500/50"></div>
+        <p class="text-[9px] font-bold tracking-[0.8em] uppercase">Air IG Secure Cloud Systems</p>
     </footer>
 
     <script>
-        // Initialize Icons
         lucide.createIcons();
 
         async function handleFetch() {
@@ -159,7 +162,6 @@
             const url = urlInput.value.trim();
             if (!url) return;
 
-            // Loading State
             fetchBtn.disabled = true;
             btnText.classList.add('hidden');
             btnLoader.classList.remove('hidden');
@@ -175,27 +177,19 @@
                 if (data.status === "success" && data.result && data.result.length > 0) {
                     const item = data.result[0];
                     
-                    // Populate UI
                     resImg.src = item.video_img;
-                    
-                    // Attempt to bypass cross-origin restrictions on image if standard fails
-                    resImg.onerror = () => {
-                        console.warn("Instagram blocked thumbnail preview.");
-                        imgPlaceholder.classList.remove('hidden');
-                    };
+                    resImg.onerror = () => imgPlaceholder.classList.remove('hidden');
 
                     document.getElementById('resUser').innerText = item.username.toUpperCase();
                     document.getElementById('userAvatar').innerText = item.username.charAt(0).toUpperCase();
-                    document.getElementById('resCap').innerText = item.caption || "Media Content Captured Successfully";
+                    document.getElementById('resCap').innerText = item.caption || "Media description unavailable.";
                     
-                    const dlBtn = document.getElementById('downloadLink');
-                    dlBtn.href = item.video_url;
+                    document.getElementById('downloadLink').href = item.video_url;
                     
-                    // Show Result
                     resultCard.classList.remove('hidden');
                     imgPlaceholder.classList.add('hidden');
                 } else {
-                    throw new Error("Target content is private or unavailable.");
+                    throw new Error("Unable to retrieve content. Link may be private.");
                 }
             } catch (err) {
                 statusText.innerText = err.message;
@@ -210,4 +204,4 @@
 </body>
 </html>
 
-
+```
