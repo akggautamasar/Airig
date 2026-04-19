@@ -1,4 +1,4 @@
-```html
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,22 +12,24 @@
         
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: #050505;
+            background-color: #0a0a0a;
+            color: #fff;
         }
 
+        .main-bg {
+            background-image: linear-gradient(to bottom, rgba(10, 10, 10, 0.8), rgba(10, 10, 10, 0.95)), 
+                              url('https://api.worksbeyondworks.workers.dev/get-image?id=96643.jpg'); /* Note: Update this URL if hosting locally */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        /* Fallback if the above URL doesn't work in preview, using a base64 or placeholder logic */
         .glass {
             background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(12px);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .animate-float {
-            animation: float 6s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
         }
 
         .loader {
@@ -39,95 +41,109 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+
+        .media-preview {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
     </style>
 </head>
-<body class="text-slate-100 min-h-screen flex flex-col items-center px-4 py-12 selection:bg-cyan-500/30 overflow-x-hidden">
+<body class="main-bg min-h-screen flex flex-col items-center px-4 py-8 md:py-16 selection:bg-cyan-500/30">
 
-    <!-- Dynamic Background Glows -->
-    <div class="fixed top-[-10%] left-[-10%] w-[50%] h-[50%] bg-cyan-600/10 blur-[120px] rounded-full -z-10"></div>
-    <div class="fixed bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-blue-600/10 blur-[120px] rounded-full -z-10"></div>
-
-    <!-- Header -->
-    <header class="flex flex-col items-center mb-12 text-center">
-        <div class="relative group mb-6">
-            <div class="absolute -inset-1 bg-gradient-to-r from-cyan-400 to-blue-600 rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
-            <div class="relative w-20 h-20 bg-black rounded-2xl border border-white/10 flex items-center justify-center shadow-2xl">
-                <i data-lucide="instagram" class="w-10 h-10 text-cyan-500"></i>
+    <!-- Brand Header -->
+    <header class="flex flex-col items-center mb-12 text-center animate-in fade-in duration-1000">
+        <div class="relative mb-6">
+            <div class="absolute -inset-4 bg-cyan-500/20 blur-3xl rounded-full"></div>
+            <div class="relative w-24 h-24 rounded-3xl overflow-hidden border border-white/20 shadow-2xl">
+                <!-- Using your uploaded image as the logo/avatar too -->
+                <img src="https://api.worksbeyondworks.workers.dev/get-image?id=96643.jpg" class="w-full h-full object-cover" alt="Air IG">
             </div>
         </div>
-        <h1 class="text-5xl font-extrabold tracking-tighter bg-clip-text text-transparent bg-gradient-to-b from-white to-white/50 mb-2">
-            Air IG
+        <h1 class="text-6xl font-black tracking-tighter mb-2 italic">
+            AIR <span class="text-cyan-400 font-light">IG</span>
         </h1>
-        <p class="text-slate-500 text-sm font-medium tracking-widest flex items-center justify-center gap-2 uppercase">
-            <i data-lucide="shield-check" class="w-4 h-4 text-cyan-500"></i>
-            Fast & Secure Downloads
+        <p class="text-slate-400 text-xs font-bold tracking-[0.4em] uppercase opacity-70">
+            Premium Media Extraction
         </p>
     </header>
 
     <!-- Main Content -->
-    <main class="w-full max-w-xl space-y-8">
+    <main class="w-full max-w-xl space-y-8 relative z-10">
         <!-- Input Form -->
-        <div class="relative">
-            <div class="absolute inset-y-0 left-5 flex items-center pointer-events-none text-slate-500">
-                <i data-lucide="link" class="w-5 h-5"></i>
+        <div class="glass p-2 rounded-[32px] shadow-2xl">
+            <div class="relative flex items-center">
+                <div class="absolute inset-y-0 left-5 flex items-center pointer-events-none text-cyan-500/50">
+                    <i data-lucide="link-2" class="w-6 h-6"></i>
+                </div>
+                <input id="urlInput" type="text" placeholder="Paste Instagram link..." 
+                    class="w-full h-16 pl-14 pr-36 rounded-[24px] bg-transparent outline-none transition-all placeholder:text-slate-600 text-lg">
+                
+                <button onclick="handleFetch()" id="fetchBtn"
+                    class="absolute right-1.5 top-1.5 bottom-1.5 px-8 rounded-[20px] bg-cyan-500 hover:bg-cyan-400 text-black font-extrabold transition-all active:scale-95 flex items-center gap-2 shadow-lg disabled:opacity-50">
+                    <span id="btnText">FETCH</span>
+                    <div id="btnLoader" class="loader hidden w-5 h-5 border-2 border-black rounded-full"></div>
+                </button>
             </div>
-            <input id="urlInput" type="text" placeholder="Paste Instagram link here..." 
-                class="w-full h-[72px] pl-14 pr-36 rounded-3xl bg-white/[0.03] border border-white/10 focus:border-cyan-500/50 focus:bg-white/[0.05] focus:ring-8 focus:ring-cyan-500/5 outline-none transition-all placeholder:text-slate-600 text-lg shadow-inner">
-            
-            <button onclick="handleFetch()" id="fetchBtn"
-                class="absolute right-2.5 top-2.5 bottom-2.5 px-8 rounded-2xl bg-white text-black hover:bg-cyan-50 font-bold transition-all active:scale-95 flex items-center gap-2 shadow-lg disabled:opacity-50">
-                <span id="btnText">Fetch</span>
-                <div id="btnLoader" class="loader hidden w-5 h-5 border-2 border-black rounded-full"></div>
-            </button>
         </div>
 
-        <!-- Error Alert (Hidden) -->
-        <div id="errorAlert" class="hidden p-4 rounded-2xl bg-red-500/5 border border-red-500/20 text-red-400 flex items-center gap-3">
-            <i data-lucide="alert-circle" class="w-5 h-5"></i>
-            <p id="errorText" class="text-sm font-medium"></p>
+        <!-- Status/Error Message -->
+        <div id="statusBox" class="hidden p-4 rounded-2xl glass border-cyan-500/20 text-cyan-400 flex items-center gap-3">
+            <i data-lucide="info" class="w-5 h-5"></i>
+            <p id="statusText" class="text-sm font-medium"></p>
         </div>
 
-        <!-- Result Card (Hidden) -->
-        <div id="resultCard" class="hidden glass rounded-[32px] overflow-hidden animate-float">
-            <div class="p-2">
-                <img id="resImg" src="" alt="Preview" class="w-full h-72 object-cover rounded-[24px]">
-            </div>
-            
-            <div class="p-8 pt-4 space-y-6">
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center gap-3">
-                        <div id="userAvatar" class="w-10 h-10 rounded-full bg-gradient-to-tr from-cyan-500 to-blue-500 flex items-center justify-center font-bold text-white text-sm"></div>
-                        <div>
-                            <p id="resUser" class="text-sm font-bold text-white"></p>
-                            <p class="text-[10px] text-slate-500 uppercase tracking-widest font-bold">Author</p>
-                        </div>
+        <!-- Result Card -->
+        <div id="resultCard" class="hidden glass rounded-[40px] overflow-hidden shadow-2xl media-preview animate-in slide-in-from-bottom-10 duration-700">
+            <div class="relative group">
+                <!-- Thumbnail with a fallback mechanism -->
+                <div class="h-80 md:h-96 w-full bg-slate-900 flex items-center justify-center overflow-hidden">
+                    <img id="resImg" src="" alt="Content" class="w-full h-full object-cover opacity-0 transition-opacity duration-500" onload="this.classList.remove('opacity-0')">
+                    <div id="imgPlaceholder" class="absolute inset-0 flex flex-col items-center justify-center text-slate-600">
+                        <i data-lucide="image" class="w-12 h-12 mb-2"></i>
+                        <span class="text-xs font-bold uppercase tracking-widest">Preview Protected</span>
                     </div>
-                    <div class="flex items-center gap-1 px-3 py-1 bg-green-500/10 rounded-full">
-                        <i data-lucide="check-circle" class="w-3 h-3 text-green-500"></i>
-                        <span class="text-[10px] font-bold text-green-500">READY</span>
+                </div>
+                <div class="absolute top-4 right-4 px-3 py-1 bg-black/50 backdrop-blur-md border border-white/10 rounded-full text-[10px] font-bold tracking-widest text-cyan-400">
+                    LIVE MEDIA
+                </div>
+            </div>
+            
+            <div class="p-8 space-y-8">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-4">
+                        <div id="userAvatar" class="w-12 h-12 rounded-2xl bg-cyan-500 flex items-center justify-center font-black text-black text-xl"></div>
+                        <div>
+                            <p id="resUser" class="text-lg font-black text-white leading-none"></p>
+                            <p class="text-[10px] text-cyan-500/70 uppercase tracking-widest font-bold mt-1">Verified Source</p>
+                        </div>
                     </div>
                 </div>
 
-                <p id="resCap" class="text-slate-400 text-sm leading-relaxed line-clamp-2"></p>
-
-                <div class="grid grid-cols-1 gap-3">
-                    <a id="downloadLink" href="#" target="_blank"
-                        class="flex items-center justify-center gap-3 w-full py-5 bg-gradient-to-r from-cyan-400 to-blue-600 rounded-2xl text-white font-bold transition-all hover:shadow-[0_0_30px_rgba(6,182,212,0.3)] active:scale-[0.98]">
-                        <i data-lucide="download" class="w-5 h-5"></i>
-                        Download Media
-                    </a>
+                <div class="space-y-4">
+                    <p id="resCap" class="text-slate-300 text-sm leading-relaxed line-clamp-3 italic opacity-80"></p>
+                    
+                    <div class="pt-4 border-t border-white/5">
+                        <a id="downloadLink" href="#" target="_blank"
+                            class="flex items-center justify-center gap-3 w-full py-5 bg-white text-black rounded-2xl font-black transition-all hover:bg-cyan-400 active:scale-[0.98] shadow-xl">
+                            <i data-lucide="arrow-down-to-line" class="w-6 h-6"></i>
+                            DOWNLOAD NOW
+                        </a>
+                        <p class="text-[10px] text-center text-slate-500 mt-4 font-bold tracking-tighter italic">
+                            If download doesn't start, long press and select "Save Link As"
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
     </main>
 
     <!-- Footer -->
-    <footer class="mt-auto pt-20 flex flex-col items-center gap-4 opacity-30">
-        <p class="text-[10px] font-bold tracking-[0.3em] uppercase">Air IG Engine v1.0</p>
+    <footer class="mt-auto pt-16 flex flex-col items-center gap-6 opacity-40">
+        <div class="h-px w-12 bg-cyan-500/50"></div>
+        <p class="text-[10px] font-bold tracking-[0.5em] uppercase">Air IG Cloud Systems</p>
     </footer>
 
     <script>
-        // Initialize Lucide Icons
+        // Initialize Icons
         lucide.createIcons();
 
         async function handleFetch() {
@@ -135,42 +151,56 @@
             const fetchBtn = document.getElementById('fetchBtn');
             const btnText = document.getElementById('btnText');
             const btnLoader = document.getElementById('btnLoader');
-            const errorAlert = document.getElementById('errorAlert');
+            const statusBox = document.getElementById('statusBox');
+            const statusText = document.getElementById('statusText');
             const resultCard = document.getElementById('resultCard');
+            const imgPlaceholder = document.getElementById('imgPlaceholder');
+            const resImg = document.getElementById('resImg');
 
             const url = urlInput.value.trim();
             if (!url) return;
 
-            // Loading UI
+            // Loading State
             fetchBtn.disabled = true;
             btnText.classList.add('hidden');
             btnLoader.classList.remove('hidden');
-            errorAlert.classList.add('hidden');
+            statusBox.classList.add('hidden');
             resultCard.classList.add('hidden');
+            resImg.classList.add('opacity-0');
 
             try {
                 const apiUrl = `https://airig.worksbeyondworks.workers.dev/?url=${encodeURIComponent(url)}`;
                 const response = await fetch(apiUrl);
                 const data = await response.json();
 
-                if (data.status === "success" && data.result.length > 0) {
+                if (data.status === "success" && data.result && data.result.length > 0) {
                     const item = data.result[0];
                     
-                    // Map Data to UI
-                    document.getElementById('resImg').src = item.video_img;
-                    document.getElementById('resUser').innerText = `@${item.username}`;
-                    document.getElementById('userAvatar').innerText = item.username.charAt(0).toUpperCase();
-                    document.getElementById('resCap').innerText = item.caption || "Instagram Media Content";
-                    document.getElementById('downloadLink').href = item.video_url;
+                    // Populate UI
+                    resImg.src = item.video_img;
+                    
+                    // Attempt to bypass cross-origin restrictions on image if standard fails
+                    resImg.onerror = () => {
+                        console.warn("Instagram blocked thumbnail preview.");
+                        imgPlaceholder.classList.remove('hidden');
+                    };
 
+                    document.getElementById('resUser').innerText = item.username.toUpperCase();
+                    document.getElementById('userAvatar').innerText = item.username.charAt(0).toUpperCase();
+                    document.getElementById('resCap').innerText = item.caption || "Media Content Captured Successfully";
+                    
+                    const dlBtn = document.getElementById('downloadLink');
+                    dlBtn.href = item.video_url;
+                    
                     // Show Result
                     resultCard.classList.remove('hidden');
+                    imgPlaceholder.classList.add('hidden');
                 } else {
-                    throw new Error("Could not find media. Is the account public?");
+                    throw new Error("Target content is private or unavailable.");
                 }
             } catch (err) {
-                document.getElementById('errorText').innerText = err.message || "Failed to fetch content.";
-                errorAlert.classList.remove('hidden');
+                statusText.innerText = err.message;
+                statusBox.classList.remove('hidden');
             } finally {
                 fetchBtn.disabled = false;
                 btnText.classList.remove('hidden');
@@ -181,4 +211,4 @@
 </body>
 </html>
 
-```
+
